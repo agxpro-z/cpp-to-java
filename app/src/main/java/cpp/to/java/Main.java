@@ -12,6 +12,8 @@ public class Main {
         if (!args[0].substring(args[0].lastIndexOf('.')).equals(".cpp")) {
             exit("Invalid file type: " + args[0]);
         }
+
+        CodeFileProcessor processor = new CodeFileProcessor(args[0]);
     }
 
     /*
