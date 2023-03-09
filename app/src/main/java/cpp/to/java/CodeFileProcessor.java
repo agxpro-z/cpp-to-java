@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 import java.util.Scanner;
 
 public class CodeFileProcessor {
@@ -15,6 +16,7 @@ public class CodeFileProcessor {
     private ArrayList<String> mHeaders;
     private ArrayList<String> mMainClass;
     private ArrayList<String> mMainMethod;
+    private ArrayList<ArrayList<String>> mMethods;
 
     CodeFileProcessor(String cppFile) {
         // Setup .cpp file reader
@@ -36,6 +38,7 @@ public class CodeFileProcessor {
         mHeaders = new ArrayList<String>();
         mMainClass = new ArrayList<String>();
         mMainMethod = new ArrayList<String>();
+        mMethods = new ArrayList<ArrayList<String>>();
     }
 
     public void flush() {
@@ -84,6 +87,26 @@ public class CodeFileProcessor {
                     continue;
                 }
 
+                // Main class methods
+                String funcHeader = "[^0-9][a-zA-z0-9]+[\s]*[a-zA-Z]+[a-zA-Z0-9]*\\(([a-zA-Z]+[a-zA-z0-9]*[\s]+[a-zA-Z]+[a-zA-Z0-9]*)*(\\,[\\s]?[a-zA-Z]+[a-zA-z0-9]*[\s]+[a-zA-Z]+[a-zA-Z0-9]*)*\\)(\\s)*(\\{)?";
+                if (Pattern.matches(funcHeader, line)) {
+                    ArrayList<String> func = new ArrayList<>();
+                    int count = 0;
+                    func.add("public static " + line + "\n");
+                    if (line.contains("{")) count++;
+
+                    do {
+                        line = cppFile.nextLine().trim();
+                        for (int i = 0; i < line.length(); ++i) {
+                            if (line.charAt(i) == '{') count++;
+                            if (line.charAt(i) == '}') count--;
+                        }
+                        func.add(line + "\n");
+                    } while (count != 0);
+                    mMethods.add(func);
+                    continue;
+                }
+
                 // Main Class
                 if (line.length() != 0)
                     mMainClass.add(line + "\n");
@@ -93,7 +116,7 @@ public class CodeFileProcessor {
                 javaFile.write(s);
             }
 
-            for (String s : MainMethodClass.mainMethodClass(mMainClass, mMainMethod)) {
+            for (String s : MainMethodClass.mainMethodClass(mMainClass, mMainMethod, mMethods)) {
                 javaFile.write(s);
             }
         } catch (IOException e) {
