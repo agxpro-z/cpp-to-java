@@ -56,6 +56,29 @@ public class Statements {
             return newLine;
         }
 
+        // Parse cout statement
+        if (line.contains("cout <<") || line.contains("cout<<")) {
+            String[] sSplit = line.split("<<");
+
+            newLine += "System.out.print(";
+
+            for (int i = 1; i < sSplit.length; ++i) {
+                if (sSplit[i].contains(";")) {
+                    sSplit[i] = sSplit[i].substring(0, sSplit[i].indexOf(";")).trim();
+                } else {
+                    sSplit[i] = sSplit[i].trim();
+                }
+
+                if (sSplit[i].equals("endl")) {
+                    newLine += "\n";
+                } else {
+                    newLine += (i >= 2) ? (" + " + sSplit[i]) : sSplit[i];
+                }
+            }
+
+            return newLine + ");\n";
+        }
+
         return line;
     }
 
