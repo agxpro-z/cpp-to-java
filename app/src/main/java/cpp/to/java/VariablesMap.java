@@ -29,7 +29,7 @@ public class VariablesMap {
                         vMap[3] = "static";
                     } else {
                         vMap[1] = statement[i];
-                        vMap[0] = statement[i + 1];
+                        vMap[0] = statement[i + 1].split(";")[0].split("=")[0];
                         break;
                     }
                 }
