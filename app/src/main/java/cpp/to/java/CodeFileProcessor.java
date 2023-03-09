@@ -117,6 +117,9 @@ public class CodeFileProcessor {
             }
 
             for (String s : MainMethodClass.mainMethodClass(mMainClass, mMainMethod, mMethods)) {
+                if (s.contains("return 0;")) {
+                    continue;
+                }
                 javaFile.write(s);
             }
         } catch (IOException e) {
