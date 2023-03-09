@@ -8,6 +8,7 @@ public class MainMethodClass {
                                                     ArrayList<ArrayList<String>> methods) {
 
         ArrayList<String> mainClass = new ArrayList<>();
+        ArrayList<String[]> globalVMap = VariablesMap.generateMap(globalVariables);
 
         mainClass.add("public class Main {\n");
         // Global variables
@@ -21,16 +22,20 @@ public class MainMethodClass {
         // Main class methods
         if (methods.size() != 0) {
             for (ArrayList<String> func : methods) {
+                ArrayList<String[]> localVMap = VariablesMap.generateMap(func);
+                Statements statement = new Statements();
                 for (String s : func) {
-                    mainClass.add(s);
+                    mainClass.add(statement.convert(s, localVMap));
                 }
                 mainClass.add("\n");
             }
         }
 
         // Main method
+        ArrayList<String[]> mainMethodVMap = VariablesMap.generateMap(mainMethod);
+        Statements statement = new Statements();
         for (String s : mainMethod) {
-            mainClass.add(s);
+            mainClass.add(statement.convert(s, mainMethodVMap));
         }
         mainClass.add("}\n");
 
