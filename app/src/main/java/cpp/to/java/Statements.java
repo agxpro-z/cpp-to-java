@@ -13,6 +13,11 @@ public class Statements {
             return line;
         }
 
+        // String variable
+        if (line.startsWith("string")) {
+            return line.replaceFirst("string", "String");
+        }
+
         // Input taking statement
         if (line.contains("cin>>") || line.contains("cin >>")) {
             if (!isScannerAdded) {
