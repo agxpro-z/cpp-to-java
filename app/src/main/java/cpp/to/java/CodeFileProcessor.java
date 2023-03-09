@@ -28,4 +28,12 @@ public class CodeFileProcessor {
             Main.exit("Error: Unable to create " + javaFileName);
         }
     }
+
+    public void flush() {
+        try {
+            javaFile.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
