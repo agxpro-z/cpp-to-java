@@ -36,4 +36,13 @@ public class CodeFileProcessor {
             e.printStackTrace();
         }
     }
+
+    public void close() {
+        try {
+            cppFile.close();
+            javaFile.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -14,6 +14,7 @@ public class Main {
         }
 
         CodeFileProcessor processor = new CodeFileProcessor(args[0]);
+        processor.close(); // Close opened files before exit.
     }
 
     /*
