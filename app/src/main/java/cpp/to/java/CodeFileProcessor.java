@@ -13,6 +13,8 @@ public class CodeFileProcessor {
     private FileWriter javaFile;
 
     private ArrayList<String> mHeaders;
+    private ArrayList<String> mMainClass;
+    private ArrayList<String> mMainMethod;
 
     CodeFileProcessor(String cppFile) {
         // Setup .cpp file reader
@@ -32,6 +34,8 @@ public class CodeFileProcessor {
         }
 
         mHeaders = new ArrayList<String>();
+        mMainClass = new ArrayList<String>();
+        mMainMethod = new ArrayList<String>();
     }
 
     public void flush() {
@@ -56,13 +60,40 @@ public class CodeFileProcessor {
         try {
             while (cppFile.hasNextLine()) {
                 line = cppFile.nextLine().trim();
+
+                // Headers
                 if (line.startsWith("#include")) {
                     mHeaders.add(line + "\n");
                     continue;
                 }
+
+                // Main method
+                if (line.contains("int main(") || line.contains("void main(")) {
+                    int count = 0;
+                    mMainMethod.add("public static void main(String[] args) {\n");
+                    if (line.contains("{")) count++;
+
+                    do {
+                        line = cppFile.nextLine().trim();
+                        for (int i = 0; i < line.length(); ++i) {
+                            if (line.charAt(i) == '{') count++;
+                            if (line.charAt(i) == '}') count--;
+                        }
+                        mMainMethod.add(line + "\n");
+                    } while (count != 0);
+                    continue;
+                }
+
+                // Main Class
+                if (line.length() != 0)
+                    mMainClass.add(line + "\n");
             }
 
             for (String s : Headers.getJavaHeaders(mHeaders)) {
+                javaFile.write(s);
+            }
+
+            for (String s : MainMethodClass.mainMethodClass(mMainClass, mMainMethod)) {
                 javaFile.write(s);
             }
         } catch (IOException e) {
