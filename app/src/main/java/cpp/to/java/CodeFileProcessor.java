@@ -10,8 +10,9 @@ import java.util.Scanner;
 
 public class CodeFileProcessor {
     private File cppFileObj;
-    private Scanner cppFile;
     private FileWriter javaFile;
+    private Scanner cppFile;
+    private String javaFileName;
 
     private ArrayList<String> mHeaders;
     private ArrayList<String> mMainClass;
@@ -28,11 +29,11 @@ public class CodeFileProcessor {
         }
 
         // Setup .java file writer
-        String javaFileName = cppFile.substring(0, cppFile.lastIndexOf('.')) + ".java";
+        javaFileName = cppFile.substring(0, cppFile.lastIndexOf('.'));
         try {
-            this.javaFile = new FileWriter(javaFileName);
+            this.javaFile = new FileWriter(javaFileName + ".java");
         } catch (IOException e) {
-            Main.exit("Error: Unable to create " + javaFileName);
+            Main.exit("Error: Unable to create " + javaFileName + ".java");
         }
 
         mHeaders = new ArrayList<String>();
@@ -116,7 +117,7 @@ public class CodeFileProcessor {
                 javaFile.write(s);
             }
 
-            for (String s : MainMethodClass.mainMethodClass(mMainClass, mMainMethod, mMethods)) {
+            for (String s : MainMethodClass.mainMethodClass(javaFileName, mMainClass, mMainMethod, mMethods)) {
                 if (s.contains("return 0;")) {
                     continue;
                 }

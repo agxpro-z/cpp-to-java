@@ -3,14 +3,15 @@ package cpp.to.java;
 import java.util.ArrayList;
 
 public class MainMethodClass {
-    public static ArrayList<String> mainMethodClass(ArrayList<String> globalVariables,
+    public static ArrayList<String> mainMethodClass(String className,
+                                                    ArrayList<String> globalVariables,
                                                     ArrayList<String> mainMethod,
                                                     ArrayList<ArrayList<String>> methods) {
 
         ArrayList<String> mainClass = new ArrayList<>();
         ArrayList<String[]> globalVMap = VariablesMap.generateMap(globalVariables);
 
-        mainClass.add("public class Main {\n");
+        mainClass.add("public class " + className + " {\n");
         // Global variables
         if (globalVariables.size() != 0) {
             for (String s : globalVariables) {
