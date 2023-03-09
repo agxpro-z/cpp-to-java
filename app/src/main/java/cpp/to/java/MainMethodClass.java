@@ -36,6 +36,9 @@ public class MainMethodClass {
         ArrayList<String[]> mainMethodVMap = VariablesMap.generateMap(mainMethod);
         Statements statement = new Statements();
         for (String s : mainMethod) {
+            if (s.contains("return 0;")) {
+                continue;
+            }
             mainClass.add(statement.convert(s, mainMethodVMap, globalVMap));
         }
         mainClass.add("}\n");

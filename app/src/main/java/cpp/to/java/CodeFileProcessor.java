@@ -113,16 +113,9 @@ public class CodeFileProcessor {
                     mMainClass.add(line + "\n");
             }
 
-            for (String s : Headers.getJavaHeaders(mHeaders)) {
-                javaFile.write(s);
-            }
-
-            for (String s : MainMethodClass.mainMethodClass(javaFileName, mMainClass, mMainMethod, mMethods)) {
-                if (s.contains("return 0;")) {
-                    continue;
-                }
-                javaFile.write(s);
-            }
+            CodeWriter cw = new CodeWriter();
+            cw.write(Headers.getJavaHeaders(mHeaders), javaFile);
+            cw.write(MainMethodClass.mainMethodClass(javaFileName, mMainClass, mMainMethod, mMethods), javaFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
