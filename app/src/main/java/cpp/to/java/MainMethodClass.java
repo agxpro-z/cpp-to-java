@@ -25,7 +25,7 @@ public class MainMethodClass {
                 ArrayList<String[]> localVMap = VariablesMap.generateMap(func);
                 Statements statement = new Statements();
                 for (String s : func) {
-                    mainClass.add(statement.convert(s, localVMap));
+                    mainClass.add(statement.convert(s, localVMap, globalVMap));
                 }
                 mainClass.add("\n");
             }
@@ -35,7 +35,7 @@ public class MainMethodClass {
         ArrayList<String[]> mainMethodVMap = VariablesMap.generateMap(mainMethod);
         Statements statement = new Statements();
         for (String s : mainMethod) {
-            mainClass.add(statement.convert(s, mainMethodVMap));
+            mainClass.add(statement.convert(s, mainMethodVMap, globalVMap));
         }
         mainClass.add("}\n");
 

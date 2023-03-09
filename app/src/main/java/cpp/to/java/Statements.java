@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Statements {
     private boolean isScannerAdded = false;
 
-    public String convert(String line, ArrayList<String[]> vMap) {
+    public String convert(String line, ArrayList<String[]> vMap, ArrayList<String[]> globalVMap) {
         String newLine = "";
 
         // Comment line
@@ -26,7 +26,7 @@ public class Statements {
                 if (sSplit[i].contains(";")) {
                     sSplit[i] = sSplit[i].substring(0, sSplit[i].indexOf(";")).trim();
                 }
-                switch (getVarType(sSplit[i], vMap)) {
+                switch (getVarType(sSplit[i], vMap, globalVMap)) {
                     case "bool":
                         newLine += sSplit[i] + " = input.nextBoolean();\n";
                         break;
@@ -59,12 +59,22 @@ public class Statements {
         return line;
     }
 
-    private String getVarType(String vName, ArrayList<String[]> vMap) {
+    private String getVarType(String vName, ArrayList<String[]> vMap, ArrayList<String[]> globalVMap) {
+        // Look into local vMap
         for (String[] s : vMap) {
             if (s[0].equals(vName)) {
                 return s[1];
             }
         }
+
+        // Look into globalVMap if variable doesn't exits in local vMap
+        for (String[] s : globalVMap) {
+            if (s[0].equals(vName)) {
+                return s[1];
+            }
+        }
+
+        // Return empty string if variable not found in any vMap
         return "";
     }
 }
