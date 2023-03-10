@@ -14,6 +14,10 @@ public class VariablesMap {
     public static ArrayList<String[]> generateMap(ArrayList<String> data) {
         ArrayList<String[]> varMap = new ArrayList<>();
 
+        if (data.size() == 0) {
+            return varMap;
+        }
+
         // Generate map from function header
         if (data.get(0).contains("(") && data.get(0).contains(")")) {
             String[] fHeader = data.get(0).substring(data.get(0).indexOf('(') + 1, data.get(0).lastIndexOf(')')).split(",");

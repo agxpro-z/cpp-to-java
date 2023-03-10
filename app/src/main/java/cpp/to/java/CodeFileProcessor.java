@@ -42,6 +42,11 @@ public class CodeFileProcessor {
         mMethods = new ArrayList<ArrayList<String>>();
     }
 
+    CodeFileProcessor(String cppFile, ArrayList<String> mHeaders) {
+        this(cppFile);
+        this.mHeaders = mHeaders;
+    }
+
     public void flush() {
         try {
             javaFile.flush();
@@ -85,6 +90,42 @@ public class CodeFileProcessor {
                         }
                         mMainMethod.add(line + "\n");
                     } while (count != 0);
+                    continue;
+                }
+
+                // Class
+                if (line.startsWith("class")) {
+                    String className = line.split(" ")[1].trim();
+
+                    // Create new cpp file for class
+                    FileWriter classFile = new FileWriter(className + ".cpp");
+
+                    int count = 0;
+                    if (line.contains("{")) count++;
+
+                    // Write class to file
+                    do {
+                        line = cppFile.nextLine();
+                        if (line.contains("};") && count == 1) {
+                            break;
+                        }
+                        for (int i = 0; i < line.length(); ++i) {
+                            if (line.charAt(i) == '{') count++;
+                            if (line.charAt(i) == '}') count--;
+                        }
+                        classFile.write(line + "\n");
+                    } while (count != 0);
+                    classFile.close();
+
+                    // Call Code Processor on newly created cpp file.
+                    CodeFileProcessor cfp = new CodeFileProcessor(className + ".cpp", mHeaders);
+                    cfp.start();
+                    cfp.flush();
+                    cfp.close();
+
+                    // Delete cpp class file
+                    File cFile = new File(className + ".cpp");
+                    cFile.delete();
                     continue;
                 }
 
