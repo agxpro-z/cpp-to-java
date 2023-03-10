@@ -9,9 +9,11 @@ public class Main {
             return;
         }
 
-        if (!args[0].substring(args[0].lastIndexOf('.')).equals(".cpp")) {
+        if (!args[0].contains(".") || !args[0].substring(args[0].lastIndexOf('.')).equals(".cpp")) {
             exit("Invalid file type: " + args[0]);
         }
+
+        System.out.println("IN: " + args[0]); // Print input file name
 
         CodeFileProcessor processor = new CodeFileProcessor(args[0]);
         processor.start();
@@ -31,7 +33,6 @@ public class Main {
         System.exit(1);
     }
 
-
     private static void usageHelp() {
         String jarFileName = "";
         try {
@@ -46,8 +47,8 @@ public class Main {
             e.printStackTrace();
         }
 
-        System.out.print("Usage: ");
+        System.out.print("Usage: \n    ");
         System.out.print(jarFileName.substring(jarFileName.lastIndexOf('/') + 1));
-        System.out.println(" <fileName>.cpp");
+        System.out.println(" <file-name>.cpp");
     }
 }

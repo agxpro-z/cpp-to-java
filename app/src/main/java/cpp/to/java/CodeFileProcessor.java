@@ -181,6 +181,8 @@ public class CodeFileProcessor {
             ArrayList<String> javaCode = MainMethodClass.mainMethodClass(javaFileName, mMainClass, mMainMethod, mMethods);
             cw.write(Headers.getJavaHeaders(mHeaders, javaCode), javaFile);
             cw.write(javaCode, javaFile);
+
+            System.out.println("OUT: " + javaFileName + ".java");
         } catch (IOException e) {
             e.printStackTrace();
         }
