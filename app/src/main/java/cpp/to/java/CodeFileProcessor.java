@@ -19,6 +19,9 @@ public class CodeFileProcessor {
     private ArrayList<String> mMainMethod;
     private ArrayList<ArrayList<String>> mMethods;
 
+    private boolean canHaveMainMethod;
+    private String prefix;
+
     CodeFileProcessor(String cppFile) {
         // Setup .cpp file reader
         try {
@@ -40,11 +43,16 @@ public class CodeFileProcessor {
         mMainClass = new ArrayList<String>();
         mMainMethod = new ArrayList<String>();
         mMethods = new ArrayList<ArrayList<String>>();
+
+        canHaveMainMethod = true;
+        prefix = "public static";
     }
 
     CodeFileProcessor(String cppFile, ArrayList<String> mHeaders) {
         this(cppFile);
         this.mHeaders = mHeaders;
+        this.canHaveMainMethod = false;
+        this.prefix = "private";
     }
 
     public void flush() {
@@ -76,8 +84,19 @@ public class CodeFileProcessor {
                     continue;
                 }
 
+                if (line.startsWith("public:")) {
+                    prefix = "public";
+                    continue;
+                } else if (line.startsWith("protected:")) {
+                    prefix = "protected";
+                    continue;
+                } else if (line.startsWith("private:")) {
+                    prefix = "private";
+                    continue;
+                }
+
                 // Main method
-                if (line.contains("int main(") || line.contains("void main(")) {
+                if (canHaveMainMethod && (line.contains("int main(") || line.contains("void main("))) {
                     int count = 0;
                     mMainMethod.add("public static void main(String[] args) {\n");
                     if (line.contains("{")) count++;
@@ -129,12 +148,12 @@ public class CodeFileProcessor {
                     continue;
                 }
 
-                // Main class methods
+                // Class methods
                 String funcHeader = "[^0-9][a-zA-z0-9]+[\s]*[a-zA-Z]+[a-zA-Z0-9]*\\(([a-zA-Z]+[a-zA-z0-9]*[\s]+[a-zA-Z]+[a-zA-Z0-9]*)*(\\,[\\s]?[a-zA-Z]+[a-zA-z0-9]*[\s]+[a-zA-Z]+[a-zA-Z0-9]*)*\\)(\\s)*(\\{)?";
                 if (Pattern.matches(funcHeader, line)) {
                     ArrayList<String> func = new ArrayList<>();
                     int count = 0;
-                    func.add("public static " + line + "\n");
+                    func.add(prefix + " " + line + "\n");
                     if (line.contains("{")) count++;
 
                     do {
@@ -149,9 +168,9 @@ public class CodeFileProcessor {
                     continue;
                 }
 
-                // Main Class
+                // Other class variables
                 if (line.length() != 0)
-                    mMainClass.add(line + "\n");
+                    mMainClass.add(prefix + " " + line + "\n");
             }
 
             CodeWriter cw = new CodeWriter();
