@@ -13,7 +13,20 @@ public class CodeWriter {
 
     public void write(ArrayList<String> code, FileWriter file) throws IOException {
         for (String s : code) {
-            file.write(s);
+            String space = "";
+            for (int i = 0; i < (s.contains("}") ? indent - 1 : indent); ++i) {
+                space += "    ";
+            }
+
+            for (int i = 0; i < s.length(); ++i) {
+                if (s.charAt(i) == '{') indent++;
+                if (s.charAt(i) == '}') indent--;
+            }
+            if (s.equals("\n")) {
+                file.write(s);
+            } else {
+                file.write(space + s);
+            }
         }
     }
 }

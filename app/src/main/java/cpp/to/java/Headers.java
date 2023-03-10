@@ -13,6 +13,7 @@ public class Headers {
             }
         }
 
+        javaHeaders.add("\n");
         return javaHeaders;
     }
 }

@@ -26,7 +26,7 @@ public class MainMethodClass {
                 ArrayList<String[]> localVMap = VariablesMap.generateMap(func);
                 Statements statement = new Statements();
                 for (String s : func) {
-                    mainClass.add(statement.convert(s, localVMap, globalVMap));
+                    mainClass.addAll(statement.convert(s, localVMap, globalVMap));
                 }
                 mainClass.add("\n");
             }
@@ -39,7 +39,7 @@ public class MainMethodClass {
             if (s.contains("return 0;")) {
                 continue;
             }
-            mainClass.add(statement.convert(s, mainMethodVMap, globalVMap));
+            mainClass.addAll(statement.convert(s, mainMethodVMap, globalVMap));
         }
         mainClass.add("}\n");
 

@@ -5,23 +5,25 @@ import java.util.ArrayList;
 public class Statements {
     private boolean isScannerAdded = false;
 
-    public String convert(String line, ArrayList<String[]> vMap, ArrayList<String[]> globalVMap) {
-        String newLine = "";
+    public ArrayList<String> convert(String line, ArrayList<String[]> vMap, ArrayList<String[]> globalVMap) {
+        ArrayList<String> newLine = new ArrayList<>();
 
         // Comment line
         if (line.startsWith("//")) {
-            return line;
+            newLine.add(line);
+            return newLine;
         }
 
         // String variable
         if (line.startsWith("string")) {
-            return line.replaceFirst("string", "String");
+            newLine.add(line.replaceFirst("string", "String"));
+            return newLine;
         }
 
         // Input taking statement
         if (line.contains("cin>>") || line.contains("cin >>")) {
             if (!isScannerAdded) {
-                newLine += "Scanner input = new Scanner(System.in);\n";
+                newLine.add("Scanner input = new Scanner(System.in);\n");
                 isScannerAdded = true;
             }
 
@@ -33,28 +35,28 @@ public class Statements {
                 }
                 switch (getVarType(sSplit[i], vMap, globalVMap)) {
                     case "bool":
-                        newLine += sSplit[i] + " = input.nextBoolean();\n";
+                        newLine.add(sSplit[i] + " = input.nextBoolean();\n");
                         break;
                     case "char":
-                        newLine += sSplit[i] + " = input.next().charAt();\n";
+                        newLine.add(sSplit[i] + " = input.next().charAt();\n");
                         break;
                     case "short":
-                        newLine += sSplit[i] + " = input.nextShort();\n";
+                        newLine.add(sSplit[i] + " = input.nextShort();\n");
                         break;
                     case "int":
-                        newLine += sSplit[i] + " = input.nextInt();\n";
+                        newLine.add(sSplit[i] + " = input.nextInt();\n");
                         break;
                     case "long":
-                        newLine += sSplit[i] + " = input.nextLong();\n";
+                        newLine.add(sSplit[i] + " = input.nextLong();\n");
                         break;
                     case "float":
-                        newLine += sSplit[i] + " = input.nextFloat();\n";
+                        newLine.add(sSplit[i] + " = input.nextFloat();\n");
                         break;
                     case "double":
-                        newLine += sSplit[i] + " = input.nextDouble();\n";
+                        newLine.add(sSplit[i] + " = input.nextDouble();\n");
                         break;
                     default:
-                        newLine += sSplit[i] + " = input.next();\n";
+                        newLine.add(sSplit[i] + " = input.next();\n");
                         break;
                 }
             }
@@ -65,7 +67,7 @@ public class Statements {
         if (line.contains("cout <<") || line.contains("cout<<")) {
             String[] sSplit = line.split("<<");
 
-            newLine += "System.out.print(";
+            String newL = "System.out.print(";
 
             for (int i = 1; i < sSplit.length; ++i) {
                 if (sSplit[i].contains(";")) {
@@ -75,16 +77,18 @@ public class Statements {
                 }
 
                 if (sSplit[i].equals("endl")) {
-                    newLine += "\n";
+                    newL += " + \"\\n\"";
                 } else {
-                    newLine += (i >= 2) ? (" + " + sSplit[i]) : sSplit[i];
+                    newL += (i >= 2) ? (" + " + sSplit[i]) : sSplit[i];
                 }
             }
-
-            return newLine + ");\n";
+            newL += ");\n";
+            newLine.add(newL);
+            return newLine;
         }
 
-        return line;
+        newLine.add(line);
+        return newLine;
     }
 
     private String getVarType(String vName, ArrayList<String[]> vMap, ArrayList<String[]> globalVMap) {
