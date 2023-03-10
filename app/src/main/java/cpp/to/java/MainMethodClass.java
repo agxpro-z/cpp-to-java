@@ -41,6 +41,10 @@ public class MainMethodClass {
             }
             mainClass.addAll(statement.convert(s, mainMethodVMap, globalVMap));
         }
+
+        // Remove extra line before class end
+        if (mainClass.get(mainClass.size() - 1).equals("\n"))
+            mainClass.remove(mainClass.size() - 1);
         mainClass.add("}\n");
 
         return mainClass;
