@@ -11,6 +11,11 @@ public class MainMethodClass {
         ArrayList<String> mainClass = new ArrayList<>();
         ArrayList<String[]> globalVMap = VariablesMap.generateMap(globalVariables);
 
+        // Return empty list if no lines are present
+        if (globalVariables.size() == 0
+            && mainMethod.size() == 0
+            && methods.size() == 0) return mainClass;
+
         mainClass.add("public class " + className + " {\n");
         // Global variables
         if (globalVariables.size() != 0) {
