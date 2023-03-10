@@ -168,6 +168,10 @@ public class CodeFileProcessor {
                     continue;
                 }
 
+                // Skip "using namespace std;"
+                if (line.contains("using namespace std;"))
+                    continue;
+
                 // Other class variables
                 if (line.length() != 0)
                     mMainClass.add(prefix + " " + line + "\n");
