@@ -117,7 +117,7 @@ public class CodeFileProcessor {
                     String className = line.split(" ")[1].trim();
 
                     // Create new cpp file for class
-                    FileWriter classFile = new FileWriter(className + ".cpp");
+                    FileWriter classFile = new FileWriter(className + ".cpp_x");
 
                     int count = 0;
                     if (line.contains("{")) count++;
@@ -137,13 +137,13 @@ public class CodeFileProcessor {
                     classFile.close();
 
                     // Call Code Processor on newly created cpp file.
-                    CodeFileProcessor cfp = new CodeFileProcessor(className + ".cpp", mHeaders);
+                    CodeFileProcessor cfp = new CodeFileProcessor(className + ".cpp_x", mHeaders);
                     cfp.start();
                     cfp.flush();
                     cfp.close();
 
                     // Delete cpp class file
-                    File cFile = new File(className + ".cpp");
+                    File cFile = new File(className + ".cpp_x");
                     cFile.delete();
                     continue;
                 }
