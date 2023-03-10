@@ -178,8 +178,9 @@ public class CodeFileProcessor {
             }
 
             CodeWriter cw = new CodeWriter();
-            cw.write(Headers.getJavaHeaders(mHeaders), javaFile);
-            cw.write(MainMethodClass.mainMethodClass(javaFileName, mMainClass, mMainMethod, mMethods), javaFile);
+            ArrayList<String> javaCode = MainMethodClass.mainMethodClass(javaFileName, mMainClass, mMainMethod, mMethods);
+            cw.write(Headers.getJavaHeaders(mHeaders, javaCode), javaFile);
+            cw.write(javaCode, javaFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
