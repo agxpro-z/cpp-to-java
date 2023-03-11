@@ -30,6 +30,12 @@ public class MainMethodClass {
             for (ArrayList<String> func : methods) {
                 ArrayList<String[]> localVMap = VariablesMap.generateMap(func);
                 Statements statement = new Statements();
+
+                // String variable in function header
+                if (func.get(0).contains("string")) {
+                    func.set(0, func.get(0).replace("string", "String"));
+                }
+
                 for (String s : func) {
                     mainClass.addAll(statement.convert(s, localVMap, globalVMap));
                 }
