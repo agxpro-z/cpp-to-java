@@ -176,6 +176,12 @@ public class CodeFileProcessor {
                 if (line.equals("{") || line.equals("}"))
                     continue;
 
+                // Comment line
+                if (line.startsWith("//")) {
+                    mMainClass.add(line + "\n");
+                    continue;
+                }
+
                 // Other class variables
                 if (line.length() != 0)
                     mMainClass.add(prefix + " " + line + "\n");
