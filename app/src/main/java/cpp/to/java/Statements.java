@@ -87,6 +87,26 @@ public class Statements {
             return newLine;
         }
 
+        // Parse class object instantiation
+        if (!line.contains("=")
+                && !isPrimitiveType(line.split(" ")[0])
+                && !isKeyword(line.split(" ")[0])
+                && line.split(" ")[0].matches("[a-zA-Z0-9]+")) {
+            String type = line.split(" ")[0];
+            String var = "";
+            String init = "";
+
+            if (line.contains("(")) {
+                var = line.substring(line.indexOf(" ") + 1, line.indexOf("("));
+                init = line.substring(line.indexOf("("), line.indexOf(";"));
+            } else {
+                var = line.substring(line.indexOf(" ") + 1, line.indexOf(";"));
+                init = "()";
+            }
+            newLine.add(type + " " + var + " = new " + type + init + ";\n");
+            return newLine;
+        }
+
         newLine.add(line);
         return newLine;
     }
@@ -108,5 +128,39 @@ public class Statements {
 
         // Return empty string if variable not found in any vMap
         return "";
+    }
+
+    private boolean isPrimitiveType(String type) {
+        switch (type) {
+            case "boolean":
+            case "char":
+            case "double":
+            case "float":
+            case "int":
+            case "long":
+            case "short":
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private boolean isKeyword(String type) {
+        switch (type) {
+            case "const":
+            case "else":
+            case "final":
+            case "for":
+            case "if":
+            case "private":
+            case "protected":
+            case "public":
+            case "return":
+            case "static":
+            case "while":
+                return true;
+            default:
+                return false;
+        }
     }
 }
