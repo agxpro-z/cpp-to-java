@@ -172,6 +172,10 @@ public class CodeFileProcessor {
                 if (line.contains("using namespace std;"))
                     continue;
 
+                // Remove leftover braces from class file creation
+                if (line.equals("{") || line.equals("}"))
+                    continue;
+
                 // Other class variables
                 if (line.length() != 0)
                     mMainClass.add(prefix + " " + line + "\n");
