@@ -48,6 +48,14 @@ public class VariablesMap {
 
         if (m.find()) {
             String[] statement = line.split(" ");
+
+            if (statement[0].equals("private")
+                    || statement[0].equals("protected")
+                    || statement[0].equals("public")
+                    || statement[0].equals("return")
+                    || !statement[0].matches("[a-zA-Z0-9]+"))
+                return vMap;
+
             for (int i = 0; i < statement.length; ++i) {
                 if (statement[i].equals("const")) {
                     vMap[2] = "const";
