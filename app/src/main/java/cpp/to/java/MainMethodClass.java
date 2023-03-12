@@ -1,6 +1,7 @@
 package cpp.to.java;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainMethodClass {
     public static ArrayList<String> mainMethodClass(String className,
@@ -9,7 +10,7 @@ public class MainMethodClass {
                                                     ArrayList<ArrayList<String>> methods) {
 
         ArrayList<String> mainClass = new ArrayList<>();
-        ArrayList<String[]> globalVMap = VariablesMap.generateMap(globalVariables);
+        HashMap<String, String[]> globalVMap = VariablesMap.generateMap(globalVariables);
 
         // Return empty list if no lines are present
         if (globalVariables.size() == 0
@@ -28,7 +29,7 @@ public class MainMethodClass {
         // Main class methods
         if (methods.size() != 0) {
             for (ArrayList<String> func : methods) {
-                ArrayList<String[]> localVMap = VariablesMap.generateMap(func);
+                HashMap<String, String[]> localVMap = VariablesMap.generateMap(func);
                 Statements statement = new Statements();
 
                 // String variable in function header
@@ -44,7 +45,7 @@ public class MainMethodClass {
         }
 
         // Main method
-        ArrayList<String[]> mainMethodVMap = VariablesMap.generateMap(mainMethod);
+        HashMap<String, String[]> mainMethodVMap = VariablesMap.generateMap(mainMethod);
         Statements statement = new Statements();
         for (String s : mainMethod) {
             if (s.contains("return 0;")) {

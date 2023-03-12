@@ -1,11 +1,12 @@
 package cpp.to.java;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Statements {
     private boolean isScannerAdded = false;
 
-    public ArrayList<String> convert(String line, ArrayList<String[]> vMap, ArrayList<String[]> globalVMap) {
+    public ArrayList<String> convert(String line, HashMap<String, String[]> vMap, HashMap<String, String[]> globalVMap) {
         ArrayList<String> newLine = new ArrayList<>();
 
         // Comment line
@@ -111,19 +112,15 @@ public class Statements {
         return newLine;
     }
 
-    private String getVarType(String vName, ArrayList<String[]> vMap, ArrayList<String[]> globalVMap) {
+    private String getVarType(String vName, HashMap<String, String[]> vMap, HashMap<String, String[]> globalVMap) {
         // Look into local vMap
-        for (String[] s : vMap) {
-            if (s[0].equals(vName)) {
-                return s[1];
-            }
+        if (vMap.get(vName) != null) {
+            return vMap.get(vName)[0];
         }
 
         // Look into globalVMap if variable doesn't exits in local vMap
-        for (String[] s : globalVMap) {
-            if (s[0].equals(vName)) {
-                return s[1];
-            }
+        if (globalVMap.get(vName) != null) {
+            return globalVMap.get(vName)[0];
         }
 
         // Return empty string if variable not found in any vMap
