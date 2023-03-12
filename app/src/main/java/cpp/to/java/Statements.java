@@ -15,10 +15,14 @@ public class Statements {
             return newLine;
         }
 
+        // Const variable
+        if (line.contains("const ")) {
+            line = line.replace("const ", "final ");
+        }
+
         // String variable
-        if (line.startsWith("string")) {
-            newLine.add(line.replaceFirst("string", "String"));
-            return newLine;
+        if (line.contains("string ")) {
+            line = line.replace("string ", "String ");
         }
 
         // Input taking statement

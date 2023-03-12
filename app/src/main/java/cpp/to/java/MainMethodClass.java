@@ -21,6 +21,8 @@ public class MainMethodClass {
         // Global variables
         if (globalVariables.size() != 0) {
             for (String s : globalVariables) {
+                if (s.contains("const "))
+                    s = s.replace("const ", "final ");
                 mainClass.add(s);
             }
             mainClass.add("\n");
@@ -31,11 +33,6 @@ public class MainMethodClass {
             for (ArrayList<String> func : methods) {
                 HashMap<String, String[]> localVMap = VariablesMap.generateMap(func);
                 Statements statement = new Statements();
-
-                // String variable in function header
-                if (func.get(0).contains("string")) {
-                    func.set(0, func.get(0).replace("string", "String"));
-                }
 
                 for (String s : func) {
                     mainClass.addAll(statement.convert(s, localVMap, globalVMap));
