@@ -39,7 +39,7 @@ public class Statements {
                         newLine.add(sSplit[i] + " = input.nextBoolean();\n");
                         break;
                     case "char":
-                        newLine.add(sSplit[i] + " = input.next().charAt();\n");
+                        newLine.add(sSplit[i] + " = input.next().charAt(0);\n");
                         break;
                     case "short":
                         newLine.add(sSplit[i] + " = input.nextShort();\n");
