@@ -148,7 +148,10 @@ public class StatementParser {
 
     private boolean isKeyword(String type) {
         switch (type) {
+            case "break":
+            case "case":
             case "const":
+            case "default":
             case "else":
             case "final":
             case "for":
@@ -158,6 +161,7 @@ public class StatementParser {
             case "public":
             case "return":
             case "static":
+            case "switch":
             case "while":
                 return true;
             default:
