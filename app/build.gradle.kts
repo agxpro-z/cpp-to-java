@@ -11,7 +11,7 @@ repositories {
 dependencies {
 }
 
-version = "0.0.1-alpha"
+version = "0.2-alpha"
 
 application {
     // Define the main class for the application.
@@ -19,7 +19,7 @@ application {
 }
 
 tasks.withType<Jar> {
-    archiveFileName.set("c2j-${version}.jar")
+    archiveFileName.set("cpp2java-${version}.jar")
     manifest {
         attributes["Main-Class"] = "cpp.to.java.Main"
     }

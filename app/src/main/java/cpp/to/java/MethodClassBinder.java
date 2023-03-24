@@ -1,10 +1,13 @@
 package cpp.to.java;
 
+import cpp.to.java.parser.StatementParser;
+import cpp.to.java.util.VariablesMap;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainMethodClass {
-    public static ArrayList<String> mainMethodClass(String className,
+public class MethodClassBinder {
+    public static ArrayList<String> bindMethodClass(String className,
                                                     ArrayList<String> globalVariables,
                                                     ArrayList<String> mainMethod,
                                                     ArrayList<ArrayList<String>> methods) {
@@ -32,7 +35,7 @@ public class MainMethodClass {
         if (methods.size() != 0) {
             for (ArrayList<String> func : methods) {
                 HashMap<String, String[]> localVMap = VariablesMap.generateMap(func);
-                Statements statement = new Statements();
+                StatementParser statement = new StatementParser();
 
                 for (String s : func) {
                     mainClass.addAll(statement.convert(s, localVMap, globalVMap));
@@ -43,7 +46,7 @@ public class MainMethodClass {
 
         // Main method
         HashMap<String, String[]> mainMethodVMap = VariablesMap.generateMap(mainMethod);
-        Statements statement = new Statements();
+        StatementParser statement = new StatementParser();
         for (String s : mainMethod) {
             if (s.contains("return 0;")) {
                 continue;

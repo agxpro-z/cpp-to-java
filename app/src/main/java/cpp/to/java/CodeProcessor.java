@@ -1,5 +1,8 @@
 package cpp.to.java;
 
+import cpp.to.java.io.CodeWriter;
+import cpp.to.java.parser.HeaderParser;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -8,7 +11,7 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.Scanner;
 
-public class CodeFileProcessor {
+public class CodeProcessor {
     private File cppFileObj;
     private FileWriter javaFile;
     private Scanner cppFile;
@@ -22,7 +25,7 @@ public class CodeFileProcessor {
     private boolean canHaveMainMethod;
     private String prefix;
 
-    CodeFileProcessor(String cppFile) {
+    CodeProcessor(String cppFile) {
         // Setup .cpp file reader
         try {
             this.cppFileObj = new File(cppFile);
@@ -48,7 +51,7 @@ public class CodeFileProcessor {
         prefix = "public static";
     }
 
-    CodeFileProcessor(String cppFile, ArrayList<String> mHeaders) {
+    CodeProcessor(String cppFile, ArrayList<String> mHeaders) {
         this(cppFile);
         this.mHeaders = mHeaders;
         this.canHaveMainMethod = false;
@@ -137,10 +140,10 @@ public class CodeFileProcessor {
                     classFile.close();
 
                     // Call Code Processor on newly created cpp file.
-                    CodeFileProcessor cfp = new CodeFileProcessor(className + ".cpp_x", mHeaders);
-                    cfp.start();
-                    cfp.flush();
-                    cfp.close();
+                    CodeProcessor cp = new CodeProcessor(className + ".cpp_x", mHeaders);
+                    cp.start();
+                    cp.flush();
+                    cp.close();
 
                     // Delete cpp class file
                     File cFile = new File(className + ".cpp_x");
@@ -188,8 +191,8 @@ public class CodeFileProcessor {
             }
 
             CodeWriter cw = new CodeWriter();
-            ArrayList<String> javaCode = MainMethodClass.mainMethodClass(javaFileName, mMainClass, mMainMethod, mMethods);
-            cw.write(Headers.getJavaHeaders(mHeaders, javaCode), javaFile);
+            ArrayList<String> javaCode = MethodClassBinder.bindMethodClass(javaFileName, mMainClass, mMainMethod, mMethods);
+            cw.write(HeaderParser.getJavaHeaders(mHeaders, javaCode), javaFile);
             cw.write(javaCode, javaFile);
 
             System.out.println("OUT: " + javaFileName + ".java");

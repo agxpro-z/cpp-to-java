@@ -1,9 +1,9 @@
-package cpp.to.java;
+package cpp.to.java.parser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Statements {
+public class StatementParser {
     private boolean isScannerAdded = false;
 
     public ArrayList<String> convert(String line, HashMap<String, String[]> vMap, HashMap<String, String[]> globalVMap) {

@@ -1,4 +1,4 @@
-package cpp.to.java;
+package cpp.to.java.io;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class CodeWriter {
     private int indent;
 
-    CodeWriter() {
+    public CodeWriter() {
         indent = 0;
     }
 

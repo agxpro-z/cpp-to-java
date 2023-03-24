@@ -1,8 +1,8 @@
-package cpp.to.java;
+package cpp.to.java.parser;
 
 import java.util.ArrayList;
 
-public class Headers {
+public class HeaderParser {
     public static ArrayList<String> getJavaHeaders(ArrayList<String> headers, ArrayList<String> javaCode) {
         ArrayList<String> javaHeaders = new ArrayList<>();
 

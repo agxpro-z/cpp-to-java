@@ -15,7 +15,7 @@ public class Main {
 
         System.out.println("IN: " + args[0]); // Print input file name
 
-        CodeFileProcessor processor = new CodeFileProcessor(args[0]);
+        CodeProcessor processor = new CodeProcessor(args[0]);
         processor.start();
         processor.flush();
         processor.close(); // Close opened files before exit.
