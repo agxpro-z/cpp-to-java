@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class CodeWriter {
     private int indent;
+    private boolean wasPrevLineWithoutSemicolon = false;
 
     public CodeWriter() {
         indent = 0;
@@ -16,6 +17,17 @@ public class CodeWriter {
             String space = "";
             for (int i = 0; i < (s.contains("}") ? indent - 1 : indent); ++i) {
                 space += "    ";
+            }
+
+            if (wasPrevLineWithoutSemicolon)
+                space += "    ";
+
+            if (((s.endsWith(")\n") || s.endsWith(":\n"))
+                    && (s.startsWith("if") || s.startsWith("while")) || s.startsWith("case") || s.startsWith("for"))
+                    || s.endsWith("else\n")) {
+                wasPrevLineWithoutSemicolon = true;
+            } else {
+                wasPrevLineWithoutSemicolon = false;
             }
 
             for (int i = 0; i < s.length(); ++i) {
