@@ -152,6 +152,7 @@ public class StatementParser {
             case "case":
             case "const":
             case "default":
+            case "do":
             case "else":
             case "final":
             case "for":
