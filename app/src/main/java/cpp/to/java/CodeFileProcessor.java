@@ -149,7 +149,7 @@ public class CodeFileProcessor {
                 }
 
                 // Class methods
-                String funcHeader = "[^0-9][a-zA-z0-9]+[\s]*[a-zA-Z]+[a-zA-Z0-9]*\\(([a-zA-Z]+[a-zA-z0-9]*[\s]+[a-zA-Z]+[a-zA-Z0-9]*)*(\\,[\\s]?[a-zA-Z]+[a-zA-z0-9]*[\s]+[a-zA-Z]+[a-zA-Z0-9]*)*\\)(\\s)*(\\{)?";
+                String funcHeader = "(static\s)?(const\s)?[^0-9][a-zA-z0-9]+[\s]*[a-zA-Z]+[a-zA-Z0-9]*\\(([a-zA-Z]+[a-zA-z0-9]*[\s]+[a-zA-Z]+[a-zA-Z0-9]*)*(\\,[\s]*[a-zA-Z]+[\s]*[a-zA-Z]+[a-zA-z0-9]*[\s]+[a-zA-Z]+[a-zA-Z0-9]*)*\\)(\\s)*(\\{)?";
                 if (Pattern.matches(funcHeader, line)) {
                     ArrayList<String> func = new ArrayList<>();
                     int count = 0;
