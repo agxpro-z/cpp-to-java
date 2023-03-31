@@ -17,13 +17,16 @@ public class CodeWriter {
             String space = "";
             for (int i = 0; i < (s.contains("}") ? indent - 1 : indent); ++i) {
                 space += "    ";
+                if (s.contains("};")) {
+                    space += "    ";
+                }
             }
 
             if (wasPrevLineWithoutSemicolon)
                 space += "    ";
 
-            if (((s.endsWith(")\n") || s.endsWith(":\n"))
-                    && (s.startsWith("if") || s.startsWith("while")) || s.startsWith("case") || s.startsWith("for"))
+            if (((s.endsWith(")") || s.endsWith(":"))
+                    && (s.startsWith("if") || s.startsWith("while")) || s.startsWith("case") || s.startsWith("default") || (s.startsWith("for") && !s.endsWith("{")))
                     || s.endsWith("else\n")) {
                 wasPrevLineWithoutSemicolon = true;
             } else {
