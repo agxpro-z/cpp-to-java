@@ -20,7 +20,7 @@ public class MethodClassBinder {
             && mainMethod.size() == 0
             && methods.size() == 0) return mainClass;
 
-        mainClass.add("public class " + className + " {\n");
+        mainClass.add("public class " + className + " {");
         // Global variables
         if (globalVariables.size() != 0) {
             for (String s : globalVariables) {
@@ -28,7 +28,7 @@ public class MethodClassBinder {
                     s = s.replace("const ", "final ");
                 mainClass.add(s);
             }
-            mainClass.add("\n");
+            mainClass.add("");
         }
 
         // Main class methods
@@ -40,7 +40,7 @@ public class MethodClassBinder {
                 for (String s : func) {
                     mainClass.addAll(statement.convert(s, localVMap, globalVMap));
                 }
-                mainClass.add("\n");
+                mainClass.add("");
             }
         }
 
@@ -55,9 +55,9 @@ public class MethodClassBinder {
         }
 
         // Remove extra line before class end
-        if (mainClass.get(mainClass.size() - 1).equals("\n"))
+        if (mainClass.get(mainClass.size() - 1).equals(""))
             mainClass.remove(mainClass.size() - 1);
-        mainClass.add("}\n");
+        mainClass.add("}");
 
         return mainClass;
     }

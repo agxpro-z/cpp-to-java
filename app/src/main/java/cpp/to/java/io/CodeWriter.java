@@ -37,10 +37,10 @@ public class CodeWriter {
                 if (s.charAt(i) == '{') indent++;
                 if (s.charAt(i) == '}') indent--;
             }
-            if (s.equals("\n")) {
-                file.write(s);
+            if (s.equals("")) {
+                file.write(s + "\n");
             } else {
-                file.write(space + s);
+                file.write(space + s + "\n");
             }
         }
     }

@@ -17,7 +17,7 @@ public class HeaderParser {
         }
 
         if (javaHeaders.size() != 0)
-            javaHeaders.add("\n");
+            javaHeaders.add("");
         return javaHeaders;
     }
 
@@ -25,7 +25,7 @@ public class HeaderParser {
         ArrayList<String> javaHeaders = new ArrayList<>();
         for (String s : headers) {
             if (s.contains("iostream")) {
-                javaHeaders.add("import java.util.Scanner;\n");
+                javaHeaders.add("import java.util.Scanner;");
                 continue;
             }
         }

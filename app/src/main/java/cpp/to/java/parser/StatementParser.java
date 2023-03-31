@@ -40,28 +40,28 @@ public class StatementParser {
                 }
                 switch (getVarType(sSplit[i], vMap, globalVMap)) {
                     case "bool":
-                        newLine.add(sSplit[i] + " = input.nextBoolean();\n");
+                        newLine.add(sSplit[i] + " = input.nextBoolean();");
                         break;
                     case "char":
-                        newLine.add(sSplit[i] + " = input.next().charAt(0);\n");
+                        newLine.add(sSplit[i] + " = input.next().charAt(0);");
                         break;
                     case "short":
-                        newLine.add(sSplit[i] + " = input.nextShort();\n");
+                        newLine.add(sSplit[i] + " = input.nextShort();");
                         break;
                     case "int":
-                        newLine.add(sSplit[i] + " = input.nextInt();\n");
+                        newLine.add(sSplit[i] + " = input.nextInt();");
                         break;
                     case "long":
-                        newLine.add(sSplit[i] + " = input.nextLong();\n");
+                        newLine.add(sSplit[i] + " = input.nextLong();");
                         break;
                     case "float":
-                        newLine.add(sSplit[i] + " = input.nextFloat();\n");
+                        newLine.add(sSplit[i] + " = input.nextFloat();");
                         break;
                     case "double":
-                        newLine.add(sSplit[i] + " = input.nextDouble();\n");
+                        newLine.add(sSplit[i] + " = input.nextDouble();");
                         break;
                     default:
-                        newLine.add(sSplit[i] + " = input.next();\n");
+                        newLine.add(sSplit[i] + " = input.next();");
                         break;
                 }
             }
@@ -87,7 +87,7 @@ public class StatementParser {
                     newL += (i >= 2) ? (" + " + sSplit[i]) : sSplit[i];
                 }
             }
-            newL += ");\n";
+            newL += ");";
             newLine.add(newL);
             return newLine;
         }
@@ -108,7 +108,7 @@ public class StatementParser {
                 var = line.substring(line.indexOf(" ") + 1, line.indexOf(";"));
                 init = "()";
             }
-            newLine.add(type + " " + var + " = new " + type + init + ";\n");
+            newLine.add(type + " " + var + " = new " + type + init + ";");
             return newLine;
         }
 

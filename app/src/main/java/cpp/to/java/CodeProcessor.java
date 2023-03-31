@@ -83,7 +83,7 @@ public class CodeProcessor {
 
                 // Headers
                 if (line.startsWith("#include")) {
-                    mHeaders.add(line + "\n");
+                    mHeaders.add(line);
                     continue;
                 }
 
@@ -101,7 +101,7 @@ public class CodeProcessor {
                 // Main method
                 if (canHaveMainMethod && (line.contains("int main(") || line.contains("void main("))) {
                     int count = 0;
-                    mMainMethod.add("public static void main(String[] args) {\n");
+                    mMainMethod.add("public static void main(String[] args) {");
                     if (line.contains("{")) count++;
 
                     do {
@@ -110,7 +110,7 @@ public class CodeProcessor {
                             if (line.charAt(i) == '{') count++;
                             if (line.charAt(i) == '}') count--;
                         }
-                        mMainMethod.add(line + "\n");
+                        mMainMethod.add(line);
                     } while (count != 0);
                     continue;
                 }
@@ -156,7 +156,7 @@ public class CodeProcessor {
                 if (Pattern.matches(funcHeader, line)) {
                     ArrayList<String> func = new ArrayList<>();
                     int count = 0;
-                    func.add(prefix + " " + line + "\n");
+                    func.add(prefix + " " + line);
                     if (line.contains("{")) count++;
 
                     do {
@@ -165,7 +165,7 @@ public class CodeProcessor {
                             if (line.charAt(i) == '{') count++;
                             if (line.charAt(i) == '}') count--;
                         }
-                        func.add(line + "\n");
+                        func.add(line);
                     } while (count != 0);
                     mMethods.add(func);
                     continue;
@@ -181,13 +181,13 @@ public class CodeProcessor {
 
                 // Comment line
                 if (line.startsWith("//")) {
-                    mMainClass.add(line + "\n");
+                    mMainClass.add(line);
                     continue;
                 }
 
                 // Other class variables
                 if (line.length() != 0)
-                    mMainClass.add(prefix + " " + line + "\n");
+                    mMainClass.add(prefix + " " + line);
             }
 
             CodeWriter cw = new CodeWriter();
