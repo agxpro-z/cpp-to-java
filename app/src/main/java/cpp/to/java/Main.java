@@ -1,5 +1,7 @@
 package cpp.to.java;
 
+import cpp.to.java.io.CodeReader;
+
 import java.net.URISyntaxException;
 
 public class Main {
@@ -15,10 +17,9 @@ public class Main {
 
         System.out.println("IN: " + args[0]); // Print input file name
 
-        CodeProcessor processor = new CodeProcessor(args[0]);
+        String fileName = args[0].substring(0, args[0].indexOf('.'));
+        CodeProcessor processor = new CodeProcessor(new CodeReader(args[0]).read(), fileName);
         processor.start();
-        processor.flush();
-        processor.close(); // Close opened files before exit.
     }
 
     /*

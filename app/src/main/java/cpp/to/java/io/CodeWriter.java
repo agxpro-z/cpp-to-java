@@ -1,5 +1,7 @@
 package cpp.to.java.io;
 
+import cpp.to.java.Main;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -7,12 +9,36 @@ import java.util.ArrayList;
 public class CodeWriter {
     private int indent;
     private boolean wasPrevLineWithoutSemicolon = false;
+    private FileWriter file;
+    private String fileName;
 
-    public CodeWriter() {
+    public CodeWriter(String fileName) {
+        this.fileName = fileName;
+        try {
+            this.file = new FileWriter(fileName + ".java");
+        } catch (IOException e) {
+            Main.exit("Error: Unable to create " + fileName + ".java");
+        }
         indent = 0;
     }
 
-    public void write(ArrayList<String> code, FileWriter file) throws IOException {
+    public void close() {
+        try {
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void flush() {
+        try {
+            file.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void write(ArrayList<String> code) {
         for (String s : code) {
             String space = "";
             for (int i = 0; i < (s.contains("}") ? indent - 1 : indent); ++i) {
@@ -37,10 +63,15 @@ public class CodeWriter {
                 if (s.charAt(i) == '{') indent++;
                 if (s.charAt(i) == '}') indent--;
             }
-            if (s.equals("")) {
-                file.write(s + "\n");
-            } else {
-                file.write(space + s + "\n");
+
+            try {
+                if (s.length() == 0) {
+                    file.write(s + "\n");
+                } else {
+                    file.write(space + s + "\n");
+                }
+            } catch (IOException e) {
+                System.err.println("Unable to write \"" + s + "\" to " + fileName + ".java");
             }
         }
     }
