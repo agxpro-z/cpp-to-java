@@ -2,8 +2,6 @@ package cpp.to.java;
 
 import cpp.to.java.io.CodeReader;
 
-import java.net.URISyntaxException;
-
 public class Main {
     public static void main(String[] args) {
         if (args.length == 0) {
@@ -41,15 +39,14 @@ public class Main {
                     .getProtectionDomain()
                     .getCodeSource()
                     .getLocation()
-                    .toURI()
-                    .getPath()
+                    .getFile()
             );
-        } catch (URISyntaxException e) {
+        } catch (SecurityException e) {
             e.printStackTrace();
         }
 
         System.out.print("Usage: \n    ");
         System.out.print(jarFileName.substring(jarFileName.lastIndexOf('/') + 1));
-        System.out.println(" <file-name>.cpp");
+        System.out.println(" [file-name].cpp");
     }
 }
